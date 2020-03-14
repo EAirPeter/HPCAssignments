@@ -1,5 +1,3 @@
-ROOT_DIR = .
-
 SRCS = val_test01_solved.cpp val_test02_solved.cpp
 OMP_SRCS = omp_solved2.c omp_solved3.c omp_solved4.c omp_solved5.c omp_solved6.c
 OMP_SRCS += MMult1.cpp jacobi2D-omp.cpp gs2D-omp.cpp
