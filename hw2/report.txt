@@ -1,0 +1,168 @@
+Machine Specifications:
+  * Processor: Intel Core i7-7700HQ
+  * Frequency: 2.8 GHz (with Turbo Boost up to 3.8 GHz)
+  * Cores: 4 Cores / 8 Threads (with hyper-threading)
+  * L1 Instruction Cache: 32 KiB per core; 8-way set associative
+  * L1 Data Cache: 32 KiB per core; 8-way set associative
+  * L2 Cache: 256 KiB per core; 4-way set associative
+  * L3 Cache: 6 MiB shared; 12-way set associative
+  * Main Memory: 16 GiB
+  * Operating System: Debian (Windows Subsystem for Linux)
+  * Host Operating System: Windows 10 Pro x64 Ver 1909 (OS Build 18363.720)
+  * Kernel: Linux 4.4.0-18362-Microsoft
+  * Compiler: GCC 8.3.0 (Debian 8.3.0-6)
+
+Note:
+  * My processor has Turbo Boost on, which dynamically adjusts the clock
+    frequency according to specific workload/power/thermal conditions. Flops
+    calculation is based on the typical frequency of my processor, i.e.
+    2.8 GHz.
+  * You may need a fixed-width font to view this file.
+
+1. Finding Memory Bugs:
+  See val_test01_solved.cpp, val_test02_solved.cpp.
+
+2. Optimizing Matrix-matrix Multiplication:
+  See MMult1.cpp. The answers to the problems are also copied to this file.
+
+  2a. Using MMult0 as a reference, implement MMult1 and try to rearrange loops
+      to maximize performance. Measure performance for different loop
+      arrangements and try to reason why you get the best performance for a
+      particular order?
+
+    The original arrangement of loops in MMult0 implementation has the
+    optimal performance. All 6 possible loop arrangements are tested and the
+    results are in placed in MMult-1/ directory where Mjpi.txt corresponds to
+    the original MMult0 implementation.
+
+    The reason is why the order j-p-i is optimal follows these observations:
+      - Read of a[i+p*m] is sequential as i increases one by one;
+      - Read/write of c[i+j*m] is also sequential as i increases one by one;
+    By letting i be the inner most loop ensures best locality in the above
+    operations.
+
+    Similarly, read of b[p+j*k] also has best locality when p increases one by
+    one. Hence the order j-p-i should be better than p-j-i, which is endorsed
+    by the test result. Hence, the j-p-i order should have the best
+    performance.
+
+    When preparing to write the next part, I noticed that, by giving some
+    stronger hint to the compiler would also help the performance as recorded
+    in Mhint.txt (has slightly better record than Mjpi.txt for large
+    dimensions). The final code for this part is copied to MMult-1/ directory,
+    which used the original j-p-i order with some additional hints to the
+    compiler.
+
+  2b. You will notice that the performance degrades for larger matrix sizes
+      that do not fit in the cache. To improve the performance for larger
+      matrices, implement a one level blocking scheme by using BLOCK_SIZE macro
+      as the block size. By partitioning big matrices into smaller blocks that
+      fit in the cache and multiplying these blocks together at a time, we can
+      reduce the number of accesses to main memory. This resolves the main
+      memory bandwidth bottleneck for large matrices and improves performance.
+
+      NOTE: You can assume that the matrix dimensions are multiples of
+            BLOCK_SIZE.
+
+      Experiment with different values for BLOCK_SIZE (use multiples of 4) and
+      measure performance. What is the optimal value for BLOCK_SIZE?
+
+    I tested for BLOCK_SIZE = 4, 8, ..., 64 and the results are saved in
+    MMult-2/ directory. For two block sizes bs1 and bs2, it could tell which
+    one is better by comparing the time needed for dimensions that are
+    multiples of LCM(bs1, bs2). After carefully comparing among these files,
+    that the optimal value for BLOCK_SIZE is 40 on my machine.
+
+    Also, the final code of this part is copied to MMult-2/ directory.
+
+  2c. Now parallelize your matrix-matrix multiplication code using OpenMP.
+
+    A single line of preprocessor directive would do the trick. Test results
+    for different BLOCK_SIZE and the final code of this part are located in
+    MMult-3/ directory.
+
+  2d. What percentage of the peak FLOP-rate do you achieve with your code?
+
+    Disclaimer: My processor has Turbo Boost on, which will dynamically adjust
+    the clock frequency according to specific workload/power/thermal
+    conditions. This calculation is only based on typical frequency of my
+    processor Intel Core i7-7700HQ, i.e. 2.8 GHz.
+
+    Before calculating theoretical flops, I took a look at the disassembly code
+    and realized that the calculation is mostly done by vector FMA
+    instructions, i.e. vfmadd213pd, vfmadd132pd, vmadd231pd. Then looked up in
+    the Intel Intrinsics Guide and got their throughput, 0.5 cycles. A YMM
+    register can hold up to 4 double precision numbers and each FMA operation
+    consists of one multiplication and one addition. Hence the theoretical
+    flops per core should be 2.8 / 0.5 * 4 * 2 = 44.8 Gflops. Since my
+    processor has 4 cores, the theoretical flops of my computer should be
+    44.8 * 4 = 179.2 Gflops.
+
+    The highest flops my MMult1 implementation achieved is 62.04 Gflops, with
+    BLOCK_SIZE=40, Dimension=320. The percentage is 62.04 / 179.2 = 34.62%.
+
+3. Finding OpenMP Bugs:
+  See omp_solved2.c, omp_solved3.c, ..., omp_solved6.c.
+
+4. OpenMP Version of 2D Jacobi/Gauss-Seidel Smoothing:
+  * Machine is specified at the beginning of this file.
+  * For N=100, no limit on maximum number of iterations, I have the following
+    results:
+                            Table 4.1: Convergence
+                            | Method | #Iteration |
+                            | Jacobi | 28141      |
+                            |     GS | 14429      |
+
+                              Table 4.2: Time (s)
+                      | #Thread | Jacobi    | GS        |
+                      |       1 | 0.5103187 | 0.3705442 |
+                      |       2 | 0.4849899 | 0.3338956 |
+                      |       3 | 0.4586096 | 0.3224117 |
+                      |       4 | 0.4510075 | 0.2956588 |
+                      |       5 | 0.4600877 | 0.2959507 |
+                      |       6 | 0.4582986 | 0.2939415 |
+                      |       7 | 0.6025248 | 0.3208811 |
+                      |       8 | 0.6450351 | 0.4757922 |
+                      |       9 | 1.1919660 | 0.9812361 |
+                      |      10 | 1.2336538 | 1.0394907 |
+                      |      11 | 1.2657420 | 1.0697566 |
+                      |      12 | 1.2692525 | 1.0848051 |
+
+  * For N=1000, maximum number of iterations is limited to 1000, I have the
+    following results:
+                              Table 4.3: Time (s)
+                      | #Thread | Jacobi    | GS        |
+                      |       1 | 2.7802709 | 3.5915505 |
+                      |       2 | 2.5672699 | 3.2436441 |
+                      |       3 | 2.4423221 | 3.0690047 |
+                      |       4 | 2.4200600 | 2.9711061 |
+                      |       5 | 2.4894801 | 2.9849970 |
+                      |       6 | 2.3879366 | 3.0896427 |
+                      |       7 | 2.5991530 | 3.2927896 |
+                      |       8 | 3.7342644 | 5.4121483 |
+                      |       9 | 2.3323273 | 3.0621504 |
+                      |      10 | 2.3297444 | 2.9919688 |
+                      |      11 | 2.3177902 | 2.9783295 |
+                      |      12 | 2.3269014 | 2.9997794 |
+  * By observation, both of methods tend to have best performance when #thread
+    is limited to 4, instead of 8 (which is the default num_threads). This
+    makes sense since I have only 4 physical cores on my computer. For such
+    computational tasks, hyper-threading is unlikely to help much as time
+    increases when #threads going beyond 4.
+
+    Table 4.3 reveals that Jacobi method has better overall performance
+    compared to Gauss-Seidel method when they perform same number of
+    iterations. This also makes sense that in each iteration of Gauss-Seidel
+    method, the computation of the black part depends on the computation of red
+    part, which does have impact on the parallelism.
+
+    However, when looking at Table 4.1 and Table 4.2, it is obvious that
+    Gauss-Seidel method converges much faster than Jacobi method. Although
+    Gauss-Seidel method needs more time to complete one iteration, its fast
+    convergence enable it to outperform Jacobi method when N=100.
+
+  * Note: The command line for both jacobi2D-omp and gs2D-omp is:
+      <program> <N> [#Thread] [#Iteration]
+    where <N> is required and [#Thread] and [#Iteration] are optional. The
+    default value of #Thread is determined at runtime, and the default value of
+    #Iteration is INT_MAX-1=2147483646.
