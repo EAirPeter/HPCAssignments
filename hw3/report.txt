@@ -1,0 +1,44 @@
+Machine Specifications:
+  * Processor: Intel Core i7-7700HQ
+  * Frequency: 2.8 GHz (with Turbo Boost up to 3.8 GHz)
+  * Cores: 4 Cores / 8 Threads (with hyper-threading)
+  * L1 Instruction Cache: 32 KiB per core; 8-way set associative
+  * L1 Data Cache: 32 KiB per core; 8-way set associative
+  * L2 Cache: 256 KiB per core; 4-way set associative
+  * L3 Cache: 6 MiB shared; 12-way set associative
+  * Main Memory: 16 GiB
+  * Operating System: Debian (Windows Subsystem for Linux)
+  * Host Operating System: Windows 10 Pro x64 Ver 1909 (OS Build 18363.720)
+  * Kernel: Linux 4.4.0-18362-Microsoft
+  * Compiler: GCC 8.3.0 (Debian 8.3.0-6)
+
+Note:
+  * You may need a fixed-width font to view this file.
+
+1. Final Project:
+  * To be updated.
+
+2. Approximating Special Functions Using Taylor Series & Vectorization:
+  * See fast-sin.cpp for detailed implementation and explanation.
+  * For the extra credit, both sin4_taylor and sin4_intrin functions support
+    input outside of [-1/4pi,1/4pi].
+  * sin4_intrin requires AVX2 to work properly. FMA instructions will be used
+    if supported.
+
+3. Parallel Scan in OpenMP:
+  * See omp-scan.cpp for implementation.
+  * Results:
+    | #Thread | Time (s) |
+    |       1 | 0.896088 |
+    |       2 | 0.569377 |
+    |       3 | 0.542342 |
+    |       4 | 0.737192 |
+    |       5 | 0.884344 |
+    |       6 | 0.954326 |
+    |       7 | 0.986720 |
+    |       8 | 0.965524 |
+    |       9 | 0.948758 |
+    |      10 | 0.946065 |
+    |      11 | 0.958485 |
+    |      12 | 0.970624 |
+    Hence the optimal #Thread on my computer is 3.
