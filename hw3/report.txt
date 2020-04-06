@@ -16,7 +16,7 @@ Note:
   * You may need a fixed-width font to view this file.
 
 1. Final Project:
-  * To be updated.
+  * See email.
 
 2. Approximating Special Functions Using Taylor Series & Vectorization:
   * See fast-sin.cpp for detailed implementation and explanation.
