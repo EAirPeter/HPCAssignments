@@ -4,14 +4,42 @@
 #include <cmath>
 #include <random>
 
+#include <cuda_runtime.h>
 #include <omp.h>
 
 #include "utils.h"
+
+int chooseDevice() {
+  int nDev;
+  checkCuda(cudaGetDeviceCount(&nDev));
+  auto sel = -1;
+  size_t freeMax = 0;
+  for (auto i = 0; i < nDev; ++i) {
+    size_t free, total;
+    checkCuda(cudaSetDevice(i));
+    if (cudaMemGetInfo(&free, &total) != cudaSuccess)
+      continue;
+    if (free > freeMax) {
+      sel = i;
+      freeMax = free;
+    }
+  }
+  if (sel < 0) {
+    std::fprintf(stderr, "No CUDA device available");
+    std::exit(EXIT_FAILURE);
+  }
+  return sel;
+}
 
 using Num = double;
 
 constexpr size_t alignment = 128;
 constexpr size_t alignmask = alignment / sizeof(Num) - 1;
+
+template<class T>
+T* align(T* p) {
+  return (T*) ((((uintptr_t) p) + alignment - 1) & ~(alignment - 1));
+}
 
 Num* allocNum(size_t n) {
   if (auto res = aligned_alloc(alignment, n * sizeof(Num)))
@@ -19,7 +47,6 @@ Num* allocNum(size_t n) {
   std::fprintf(stderr, "Allocation of %zu bytes failed", n * sizeof(Num));
   std::exit(EXIT_FAILURE);
 }
-
 
 void matVecProdRef(Num* __restrict__ v,
   const Num* __restrict__ A, const Num* __restrict__ u, long n)
@@ -98,12 +125,14 @@ void dotProdKernel(Num* __restrict__ v,
 }
 
 __global__
-void reductionKernel(Num* __restrict__ v, const Num* __restrict__ u, long n) {
+void reductionKernel(Num* __restrict__ v, const Num* __restrict__ u, long n, long xGridSize) {
   auto i = threadIdx.x + blockIdx.x * blockDim.x;
-  Num res = 0;
-  for (auto j = 0; j < n; ++j)
-    res += u[i * n + j];
-  v[i] = res;
+  if (i < n) {
+    Num res = 0;
+    for (auto j = 0; j < xGridSize; ++j)
+      res += u[i * xGridSize + j];
+    v[i] = res;
+  }
 }
 
 template<long xMaxGrdSize, long xBlkSize, long yBlkSize>
@@ -116,10 +145,10 @@ void matVecProdGpu(Num* __restrict__ v, Num* __restrict__ d_v,
   if (xGrdSize < 2)
     dotProdKernel<xMaxGrdSize, xBlkSize><<<dim3(xGrdSize, n), xBlkSize, tmpSize>>>(d_v, d_A, d_u, n);
   else {
-    auto d_v_ = d_v + ((n + alignmask) & ~alignmask);
+    auto d_v_ = align(d_v + n);
     dotProdKernel<xMaxGrdSize, xBlkSize><<<dim3(xGrdSize, n), xBlkSize, tmpSize>>>(d_v_, d_A, d_u, n);
     auto yGrdSize = (n + yBlkSize - 1) / yBlkSize;
-    reductionKernel<<<yGrdSize, yBlkSize>>>(d_v, d_v_, xGrdSize);
+    reductionKernel<<<yGrdSize, yBlkSize>>>(d_v, d_v_, n, xGrdSize);
   }
   checkCuda(cudaMemcpy(v, d_v, n * sizeof(Num), cudaMemcpyDeviceToHost));
 }
@@ -142,9 +171,10 @@ int main() {
   constexpr long n = 6000;
 
   cudaDeviceProp prop;
-  checkCuda(cudaGetDeviceProperties(&prop, 0));
-  checkCuda(cudaSetDevice(0));
-  printf("Device: %s\n", prop.name);
+  auto dev = chooseDevice();
+  checkCuda(cudaSetDevice(dev));
+  checkCuda(cudaGetDeviceProperties(&prop, dev));
+  printf("Device[%d]: %s\n", dev, prop.name);
   printf("Matrix/Vector Dimension: %d\n", n);
   
   // Data generation
@@ -161,6 +191,12 @@ int main() {
 
   std::generate(A, A + n * n, randpm1);
   std::generate(u, u + n, randpm1);
+
+  //for (auto i = 0l; i < n; ++i)
+  //  for (auto j = 0l; j < n; ++j)
+  //    A[i * n + j] = i + j;
+  //for (auto i = 0l; i < n; ++i)
+  //  u[i] = 1. / (i + 1);
 
   // GPU memory initialization
   Num *d_A, *d_u, *d_v;

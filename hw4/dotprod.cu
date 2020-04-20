@@ -8,6 +8,28 @@
 
 #include "utils.h"
 
+int chooseDevice() {
+  int nDev;
+  checkCuda(cudaGetDeviceCount(&nDev));
+  auto sel = -1;
+  size_t freeMax = 0;
+  for (auto i = 0; i < nDev; ++i) {
+    size_t free, total;
+    checkCuda(cudaSetDevice(i));
+    if (cudaMemGetInfo(&free, &total) != cudaSuccess)
+      continue;
+    if (free > freeMax) {
+      sel = i;
+      freeMax = free;
+    }
+  }
+  if (sel < 0) {
+    std::fprintf(stderr, "No CUDA device available");
+    std::exit(EXIT_FAILURE);
+  }
+  return sel;
+}
+
 using Num = double;
 
 constexpr size_t alignment = 128;
@@ -121,9 +143,10 @@ int main() {
   constexpr long n = 10000000;
 
   cudaDeviceProp prop;
-  checkCuda(cudaGetDeviceProperties(&prop, 0));
-  checkCuda(cudaSetDevice(0));
-  printf("Device: %s\n", prop.name);
+  auto dev = chooseDevice();
+  checkCuda(cudaSetDevice(dev));
+  checkCuda(cudaGetDeviceProperties(&prop, dev));
+  printf("Device[%d]: %s\n", dev, prop.name);
   printf("Vector Dimension: %d\n", n);
   
   // Data generation
