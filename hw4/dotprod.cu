@@ -92,7 +92,7 @@ void dotProdKernel(Num* __restrict__ z,
 }
 
 template<long grdSize, long blkSize>
-void dotProdGpu(Num* z, Num* __restrict__ d_z,
+void dotProdGpu(Num* __restrict__ z, Num* __restrict__ d_z,
   const Num* __restrict__ d_x, const Num* __restrict__ d_y, long n)
 {
   Num tmp[grdSize] alignas(alignment);
