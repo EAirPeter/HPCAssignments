@@ -160,7 +160,7 @@ void processData(const char* name, double time,
   for (auto i = 0; i < n; ++i)
     error = std::max(error, std::fabs(v[i] - vRef[i]));
   auto bandwidth = nIter * (n * n * 2 + n) * sizeof(Num) * 1e-9 / time;
-  printf("%12s %12.6f %18.6f %16e\n", name, time, bandwidth, error);
+  std::printf("%12s %12.6f %18.6f %16e\n", name, time, bandwidth, error);
 }
 
 int main() {
@@ -174,8 +174,8 @@ int main() {
   auto dev = chooseDevice();
   checkCuda(cudaSetDevice(dev));
   checkCuda(cudaGetDeviceProperties(&prop, dev));
-  printf("Device[%d]: %s\n", dev, prop.name);
-  printf("Matrix/Vector Dimension: %d\n", n);
+  std::printf("Device[%d]: %s\n", dev, prop.name);
+  std::printf("Matrix/Vector Dimension: %d\n", n);
   
   // Data generation
   auto A = allocNum(n * n);
