@@ -1,0 +1,61 @@
+Machine:
+  cuda1.cims.nyu.edu: GeForce GTX TITAN Black
+  cuda2.cims.nyu.edu: GeForce RTX 2080 Ti
+  cuda3.cims.nyu.edu: TITAN V
+  cuda4.cims.nyu.edu: (nor deviceQuery and my program runs on this machine)
+  cuda5.cims.nyu.edu: GeForce GTX TITAN Z
+
+Note:
+  You may need a newer C++ compiler that supports C++14.
+
+Matrix-vector operations on a GPU:
+  I implemented several versions of dot product in older_version/ directory and
+  a best version (I thought) in dotprod.cu.
+
+  Matrix-vector multiplication is implemented in matvec.cu. It always selects
+  to run kernels on the GPU with most free memory.
+
+  For 6000x6000 matrix and vectors, the bandwidths on cuda1~5 (except 4) are
+  shown below:
+
+  + cuda1.cims.nyu.edu:
+      Device[1]: GeForce GTX TITAN Black
+      Matrix/Vector Dimension: 6000
+      
+           Routine     Time (s)   Bandwidth (GB/s)            Error
+      matVecProdRef     1.175716           9.799104     0.000000e+00
+      matVecProdOmp     0.205999          55.927140     0.000000e+00
+      matVecProdGpu     0.037631         306.157990     3.801404e-13
+
+  + cuda2.cims.nyu.edu:
+      Device[1]: GeForce RTX 2080 Ti
+      Matrix/Vector Dimension: 6000
+      
+           Routine     Time (s)   Bandwidth (GB/s)            Error
+      matVecProdRef     0.868357          13.267545     0.000000e+00
+      matVecProdOmp     0.224337          51.355683     0.000000e+00
+      matVecProdGpu     0.011056        1042.047264     4.760636e-13
+
+  + cuda3.cims.nyu.edu:
+      Device[0]: TITAN V
+      Matrix/Vector Dimension: 6000
+      
+           Routine     Time (s)   Bandwidth (GB/s)            Error
+      matVecProdRef     3.853622           2.989644     0.000000e+00
+      matVecProdOmp     0.997401          11.550983     0.000000e+00
+      matVecProdGpu     0.010371        1110.917188     6.821210e-13
+
+  + cuda5.cims.nyu.edu:
+      Device[2]: GeForce GTX TITAN Z
+      Matrix/Vector Dimension: 6000
+      
+           Routine     Time (s)   Bandwidth (GB/s)            Error
+      matVecProdRef     0.862653          13.355268     0.000000e+00
+      matVecProdOmp     0.599388          19.221206     0.000000e+00
+      matVecProdGpu     0.046577         247.353033     4.760636e-13
+
+  Note: matVecProdRef is the sequential reference implementation, matVecProdOmp
+  is the OpenMP implementation and matVecProd is the CUDA implementation.
+
+  Note: The original outputs of program are also stored in matvec_bandwidth/
+  directory.
