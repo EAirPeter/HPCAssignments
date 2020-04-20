@@ -1,0 +1,7 @@
+Device[0]: TITAN V
+Matrix/Vector Dimension: 6000
+
+     Routine     Time (s)   Bandwidth (GB/s)            Error
+matVecProdRef     3.853622           2.989644     0.000000e+00
+matVecProdOmp     0.997401          11.550983     0.000000e+00
+matVecProdGpu     0.010371        1110.917188     6.821210e-13

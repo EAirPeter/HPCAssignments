@@ -1,0 +1,7 @@
+Device[1]: GeForce GTX TITAN Black
+Matrix/Vector Dimension: 6000
+
+     Routine     Time (s)   Bandwidth (GB/s)            Error
+matVecProdRef     1.175716           9.799104     0.000000e+00
+matVecProdOmp     0.205999          55.927140     0.000000e+00
+matVecProdGpu     0.037631         306.157990     3.801404e-13

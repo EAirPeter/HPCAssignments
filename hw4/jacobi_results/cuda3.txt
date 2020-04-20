@@ -1,0 +1,11 @@
+             N: 4000
+CPU    #Thread: 10
+CUDA Device[0]: TITAN V
+Init  Residual: 4.000000e+03
+CPU #Iteration: 1000
+CPU       Time: 65.313499 s
+CPU   Residual: 3.950528e+03
+GPU #Iteration: 1000
+GPU       Time: 7.872424 s
+GPU   Residual: 3.952970e+03
+CPU-GPU  Error: 1.579134e-07

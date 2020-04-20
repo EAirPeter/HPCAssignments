@@ -1,0 +1,11 @@
+             N: 4000
+CPU    #Thread: 10
+CUDA Device[2]: GeForce GTX TITAN Z
+Init  Residual: 4.000000e+03
+CPU #Iteration: 1000
+CPU       Time: 40.452430 s
+CPU   Residual: 3.950528e+03
+GPU #Iteration: 1000
+GPU       Time: 2.796123 s
+GPU   Residual: 3.954379e+03
+CPU-GPU  Error: 1.765403e-07

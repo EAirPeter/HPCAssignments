@@ -1,0 +1,7 @@
+Device[2]: GeForce GTX TITAN Z
+Matrix/Vector Dimension: 6000
+
+     Routine     Time (s)   Bandwidth (GB/s)            Error
+matVecProdRef     0.862653          13.355268     0.000000e+00
+matVecProdOmp     0.599388          19.221206     0.000000e+00
+matVecProdGpu     0.046577         247.353033     4.760636e-13

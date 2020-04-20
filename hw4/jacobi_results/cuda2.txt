@@ -1,0 +1,11 @@
+             N: 4000
+CPU    #Thread: 10
+CUDA Device[1]: GeForce RTX 2080 Ti
+Init  Residual: 4.000000e+03
+CPU #Iteration: 1000
+CPU       Time: 10.263477 s
+CPU   Residual: 3.950528e+03
+GPU #Iteration: 1000
+GPU       Time: 1.586458 s
+GPU   Residual: 3.954328e+03
+CPU-GPU  Error: 1.852460e-07

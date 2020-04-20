@@ -1,0 +1,11 @@
+             N: 4000
+CPU    #Thread: 10
+CUDA Device[0]: GeForce GTX TITAN Black
+Init  Residual: 4.000000e+03
+CPU #Iteration: 1000
+CPU       Time: 37.639651 s
+CPU   Residual: 3.950528e+03
+GPU #Iteration: 1000
+GPU       Time: 6.999592 s
+GPU   Residual: 3.954367e+03
+CPU-GPU  Error: 1.753012e-07

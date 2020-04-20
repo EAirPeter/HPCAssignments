@@ -1,0 +1,7 @@
+Device[1]: GeForce RTX 2080 Ti
+Matrix/Vector Dimension: 6000
+
+     Routine     Time (s)   Bandwidth (GB/s)            Error
+matVecProdRef     0.868357          13.267545     0.000000e+00
+matVecProdOmp     0.224337          51.355683     0.000000e+00
+matVecProdGpu     0.011056        1042.047264     4.760636e-13
