@@ -9,6 +9,6 @@ all : $(TARGETS)
 	$(NVCC) $(NVCCFLAGS) $< $(LIBS) -o $@
 
 clean:
-	-$(RM) $(TARGETS) *~
+	-$(RM) $(TARGETS)
 
 .PHONY: all, clean

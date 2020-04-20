@@ -70,20 +70,54 @@ void dotProdKernel(Num* __restrict__ z,
   tmp[tid] = res;
   __syncthreads();
 
-  auto h = blkSize / 2;
-
-  while (h > 32) {
-    if (tid < h)
-      tmp[tid] = res += tmp[tid + h];
+  if (blkSize >= 1024) {
+    if (tid < 512)
+      tmp[tid] = res += tmp[tid + 512];
     __syncthreads();
-    h >>= 1;
+  }
+
+  if (blkSize >= 512) {
+    if (tid < 256)
+      tmp[tid] = res += tmp[tid + 256];
+    __syncthreads();
+  }
+
+  if (blkSize >= 256) {
+    if (tid < 128)
+      tmp[tid] = res += tmp[tid + 128];
+    __syncthreads();
+  }
+
+  if (blkSize >= 128) {
+    if (tid < 64)
+      tmp[tid] = res += tmp[tid + 64];
+    __syncthreads();
   }
 
   if (tid < 32) {
-    while (h) {
-      tmp[tid] = res += tmp[tid + h];
+    if (blkSize >= 64) {
+      tmp[tid] = res += tmp[tid + 32];
       __syncthreads();
-      h >>= 1;
+    }
+    if (blkSize >= 32) {
+      tmp[tid] = res += tmp[tid + 16];
+      __syncthreads();
+    }
+    if (blkSize >= 16) {
+      tmp[tid] = res += tmp[tid + 8];
+      __syncthreads();
+    }
+    if (blkSize >= 8) {
+      tmp[tid] = res += tmp[tid + 4];
+      __syncthreads();
+    }
+    if (blkSize >= 4) {
+      tmp[tid] = res += tmp[tid + 2];
+      __syncthreads();
+    }
+    if (blkSize >= 2) {
+      tmp[tid] = res += tmp[tid + 1];
+      __syncthreads();
     }
   }
 
@@ -95,13 +129,20 @@ template<long grdSize, long blkSize>
 void dotProdGpu(Num* z, Num* __restrict__ d_z,
   const Num* __restrict__ d_x, const Num* __restrict__ d_y, long n)
 {
-  Num tmp[grdSize] alignas(alignment);
+  static Num tmp[grdSize] alignas(128);
   auto tmpSize = (blkSize < 64 ? 64 : blkSize) * sizeof(Num);
-  auto nBlk = std::min(grdSize, (n + blkSize * 2 - 1) / (blkSize * 2));
-  dotProdKernel<blkSize><<<nBlk, blkSize, tmpSize>>>(d_z, d_x, d_y, n);
-  checkCuda(cudaMemcpy(tmp, d_z, nBlk * sizeof(Num), cudaMemcpyDeviceToHost));
+  auto nb = std::min(grdSize, (n + blkSize * 2 - 1) / (blkSize * 2));
+  dotProdKernel<blkSize><<<nb, blkSize, tmpSize>>>(d_z, d_x, d_y, n);
+  //while (nb > 1) {
+  //  n = nb;
+  //  nb = std::min(grdSize, (n + blkSize * 2 - 1) / (blkSize * 2));
+  //  reductionKernel<blkSize><<<nb, blkSize, tmpSize>>>(d_z + n, d_z, n);
+  //  d_z += n;
+  //}
+  //checkCuda(cudaMemcpy(z, d_z, sizeof(Num), cudaMemcpyDeviceToHost));
+  checkCuda(cudaMemcpy(tmp, d_z, nb * sizeof(Num), cudaMemcpyDeviceToHost));
   Num res = 0;
-  for (auto i = 0l; i < nBlk; ++i)
+  for (auto i = 0l; i < nb; ++i)
     res += tmp[i];
   *z = res;
 }
@@ -115,10 +156,10 @@ void processData(const char* name, double time,
 }
 
 int main() {
-  constexpr long grdSize = 128;
-  constexpr long blkSize = 128;
-  constexpr long nIter = 20;
-  constexpr long n = 10000000;
+  constexpr int grdSize = 128;
+  constexpr int blkSize = 256;
+  constexpr long nIter = 100;
+  constexpr long n = 1l << 20;
 
   cudaDeviceProp prop;
   checkCuda(cudaGetDeviceProperties(&prop, 0));
@@ -127,8 +168,8 @@ int main() {
   printf("Vector Dimension: %d\n", n);
   
   // Data generation
-  auto x = allocNum(n);
-  auto y = allocNum(n);
+  auto x    = allocNum(n);
+  auto y    = allocNum(n);
 
   std::mt19937_64 rand{std::random_device{}()};
   auto randpm1 = [&] {
