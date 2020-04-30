@@ -39,8 +39,8 @@ int main() {
       job << "#SBATCH --nodes=" << nodes << '\n';
       job << "#SBATCH --tasks-per-node=" << tasksPerNode << '\n';
       job << "#SBATCH --cpus-per-task=1\n";
-      job << "#SBATCH --time=1:00:00\n";
-      job << "#SBATCH --mem=1GB\n";
+      job << "#SBATCH --time=12:00:00\n";
+      job << "#SBATCH --mem=10GB\n";
       //job << "#SBATCH --mail-type=END\n";
       //job << "#SBATCH --mail-user=zl2972@nyu.edu\n";
       job << "#SBATCH --output=" << name << ".out\n";

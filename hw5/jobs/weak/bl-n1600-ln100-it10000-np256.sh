@@ -4,8 +4,8 @@
 #SBATCH --nodes=16
 #SBATCH --tasks-per-node=16
 #SBATCH --cpus-per-task=1
-#SBATCH --time=1:00:00
-#SBATCH --mem=1GB
+#SBATCH --time=12:00:00
+#SBATCH --mem=10GB
 #SBATCH --output=bl-n1600-ln100-it10000-np256.out
 
 module purge
