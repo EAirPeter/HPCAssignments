@@ -1,0 +1,141 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{mathtools}
+\usepackage{diagbox}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{rotating}
+\usepackage{fontspec}
+\usepackage{filecontents}
+\usepackage{pgfplots}
+
+\setmonofont{Consolas}
+
+\title{Report for HPC Homework 5}
+\author{Zhen Li}
+\date{\today}
+
+\begin{filecontents*}{weak.csv}
+NP,BL,NB
+1,0.099529,0.127009
+4,0.173452,0.143530
+16,0.228434,0.186785
+64,1.785567,1.441090
+256,3.837413,2.438356
+\end{filecontents*}
+
+\begin{filecontents*}{strong.csv}
+NP,BL,NB
+1,1,1
+4,2.283515958,2.237754604
+16,8.722399017,7.767556228
+64,29.57530104,34.91080837
+256,107.5529521,106.3285942
+\end{filecontents*}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+  \item MPI-parallel two-dimensional Jacobi smoother
+  \begin{itemize}
+    \item Every points reside in the $N_l \times N_l$ matrix should be updated
+    by current process.
+
+    \item The leftmost column, rightmost column, topmost row and the
+    bottommost row should be communicated to the adjacent left, right, up,
+    down process.
+
+    \item See \url{jacobi.cpp} for blocking implementation and
+    \url{jacobi-nb.cpp} for non-blocking implementation.
+
+    \item See \url{jobs/**/*.out} for results generated on Prince cluster
+    where \lstinline{bl} stands for blocking version, \lstinline{nb} stands
+    for non-blocking version, \lstinline{n} stands for $N$, \lstinline{ln}
+    stands for $N_l$ and \lstinline{np} stands for number of processes in the
+    file names.
+
+    \item For convenience, results are shown in the following table:
+    \begin{center}
+      \begin{tabular}{cccccc}
+        \toprule
+        $N$ & $N_l$ & \#Iteration & \#Process & Time (blocking) &
+          Time (non-blocking) \\
+        \midrule
+        100  & 100 & 10000 & 1   & 0.099529 s & 0.127009 s \\
+        200  & 100 & 10000 & 4   & 0.173452 s & 0.143530 s \\
+        400  & 100 & 10000 & 16  & 0.228434 s & 0.186785 s \\
+        800  & 100 & 10000 & 64  & 1.785567 s & 1.441090 s \\
+        1600 & 100 & 10000 & 256 & 3.837413 s & 2.438356 s \\
+        \midrule
+        25600 & 25600 & 100 & 1   & 166.562417 s & 163.037036 s \\
+        25600 & 12800 & 100 & 4   & 72.941210  s & 72.857424  s \\
+        25600 & 6400  & 100 & 16  & 19.095941  s & 20.989489  s \\
+        25600 & 3200  & 100 & 64  & 5.631808   s & 4.670102   s \\
+        25600 & 1600  & 100 & 256 & 1.548655   s & 1.533332   s \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+    where the upper half is for weak scalability comparison and the lower half
+    is for strong scalability comparison.
+
+    \item For weak scalability, the timings are plotted below. As you may see,
+    this algorithm is not weakly scalable since the running time significantly
+    increases as $N$ and \#Process grows.
+    \begin{center} \begin{tikzpicture}
+      \begin{axis} [
+        xlabel = {\#Process},
+        ylabel = {Time (sec)},
+        scale only axis,
+        axis x line* = bottom,
+        axis y line* = left,
+        legend style = {
+          at = {(0.1, 0.9)},
+          anchor=north west,
+        },
+      ]
+        \addplot table [x=NP, y=BL, col sep=comma]{weak.csv};
+        \addplot table [x=NP, y=NB, col sep=comma]{weak.csv};
+        \legend{Blocking, Non-blocking}
+      \end{axis}
+    \end{tikzpicture} \end{center}
+
+    \item For strong scalability, the speedups are plotted below. It some how
+    resembles linear speedup, but it is still not ideal.
+    \begin{center} \begin{tikzpicture}
+      \begin{axis} [
+        xlabel = {\#Process},
+        ylabel = {Speedup},
+        scale only axis,
+        axis x line* = bottom,
+        axis y line* = left,
+        legend style = {
+          at = {(0.1, 0.9)},
+          anchor=north west,
+        },
+      ]
+        \addplot table [x=NP, y=BL, col sep=comma]{strong.csv};
+        \addplot table [x=NP, y=NB, col sep=comma]{strong.csv};
+        \addplot table [x=NP, y=NP, col sep=comma]{strong.csv};
+        \legend{Blocking, Non-blocking, Ideal}
+      \end{axis}
+    \end{tikzpicture} \end{center}
+
+    \item For comparison between blocking and non-blocking version, actually
+    their timings do not differ much but the non-blocking version still
+    outperforms the blocking one when \#Process and $N$ both getting bigger.
+
+  \end{itemize}
+
+\end{enumerate}
+
+\end{document}
