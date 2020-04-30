@@ -110,6 +110,8 @@ int main(int nArg, char* args[]) {
     return EXIT_FAILURE;
   }
 
+  MPI_Request reqL[2], reqR[2], reqD[2], reqU[2];
+
   auto K = N / lN;
   auto lx = lId % K;
   auto ly = lId / K;
@@ -140,71 +142,59 @@ int main(int nArg, char* args[]) {
     std::printf("[Iter 0] Residual: %g\n", res);
 
   while (nIter < nMaxIter && res * 1e6 > resInit) {
-    // Jacobi Step
+    // Jacobi Step for Boundaries
+    for (auto j = 1; j <= lN; ++j) {
+      lv[j + 1 * lM] = .25 * (h2 +
+        lu[j + (1 - 1) * lM] + lu[j - 1 + 1 * lM] +
+        lu[j + (1 + 1) * lM] + lu[j + 1 + 1 * lM]);
+    }
+    for (auto i = 2; i < lN; ++i) {
+      lv[1 + i * lM] = .25 * (h2 +
+        lu[1 + (i - 1) * lM] + lu[1 - 1 + i * lM] +
+        lu[1 + (i + 1) * lM] + lu[1 + 1 + i * lM]);
+      lv[lN + i * lM] = .25 * (h2 +
+        lu[lN + (i - 1) * lM] + lu[lN - 1 + i * lM] +
+        lu[lN + (i + 1) * lM] + lu[lN + 1 + i * lM]);
+    }
+    for (auto j = 1; j <= lN; ++j) {
+      lv[j + lN * lM] = .25 * (h2 +
+        lu[j + (lN - 1) * lM] + lu[j - 1 + lN * lM] +
+        lu[j + (lN + 1) * lM] + lu[j + 1 + lN * lM]);
+    }
+
+    // Async Communication
+    if (lx > 0) {
+      checkMpi(MPI_Irecv(lv + 1 * lM, 1, MpiCol, lId - 1, TagRecvL,
+        MPI_COMM_WORLD, &reqL[0]));
+      checkMpi(MPI_Isend(lv + 1 * lM + 1, 1, MpiCol, lId - 1, TagSendL,
+        MPI_COMM_WORLD, &reqL[1]));
+    }
+    if (lx < K - 1) {
+      checkMpi(MPI_Irecv(lv + 1 * lM + lN + 1, 1, MpiCol, lId + 1, TagRecvR,
+        MPI_COMM_WORLD, &reqR[0]));
+      checkMpi(MPI_Isend(lv + 1 * lM + lN, 1, MpiCol, lId + 1, TagSendR,
+        MPI_COMM_WORLD, &reqR[1]));
+    }
+    if (ly > 0) {
+      checkMpi(MPI_Irecv(lv + 1, lN, MpiNum, lId - K, TagRecvD,
+        MPI_COMM_WORLD, &reqD[0]));
+      checkMpi(MPI_Isend(lv + lM + 1, lN, MpiNum, lId - K, TagSendD,
+        MPI_COMM_WORLD, &reqD[1]));
+    }
+    if (ly < K - 1) {
+      checkMpi(MPI_Irecv(lv + (lN + 1) * lM + 1, lN, MpiNum, lId + K, TagRecvU,
+        MPI_COMM_WORLD, &reqU[0]));
+      checkMpi(MPI_Isend(lv + lN * lM + 1, lN, MpiNum, lId + K, TagSendU,
+        MPI_COMM_WORLD, &reqU[1]));
+    }
+
+    // Jacobi Step for Inner Points
     for (auto i = 1; i <= lN; ++i)
       for (auto j = 1; j <= lN; ++j) {
         lv[j + i * lM] = .25 * (h2 +
           lu[j + (i - 1) * lM] + lu[j - 1 + i * lM] +
           lu[j + (i + 1) * lM] + lu[j + 1 + i * lM]);
       }
-
-    // Communication
-    if (lx > 0) {
-      if (lx & 1) {
-        checkMpi(MPI_Send(lv + 1 * lM + 1, 1, MpiCol, lId - 1, TagSendL,
-          MPI_COMM_WORLD));
-        checkMpi(MPI_Recv(lv + 1 * lM, 1, MpiCol, lId - 1, TagRecvL,
-          MPI_COMM_WORLD, MPI_STATUS_IGNORE));
-      }
-      else {
-        checkMpi(MPI_Recv(lv + 1 * lM, 1, MpiCol, lId - 1, TagRecvL,
-          MPI_COMM_WORLD, MPI_STATUS_IGNORE));
-        checkMpi(MPI_Send(lv + 1 * lM + 1, 1, MpiCol, lId - 1, TagSendL,
-          MPI_COMM_WORLD));
-      }
-    }
-    if (lx < K - 1) {
-      if (lx & 1) {
-        checkMpi(MPI_Send(lv + 1 * lM + lN, 1, MpiCol, lId + 1, TagSendR,
-          MPI_COMM_WORLD));
-        checkMpi(MPI_Recv(lv + 1 * lM + lN + 1, 1, MpiCol, lId + 1, TagRecvR,
-          MPI_COMM_WORLD, MPI_STATUS_IGNORE));
-      }
-      else {
-        checkMpi(MPI_Recv(lv + 1 * lM + lN + 1, 1, MpiCol, lId + 1, TagRecvR,
-          MPI_COMM_WORLD, MPI_STATUS_IGNORE));
-        checkMpi(MPI_Send(lv + 1 * lM + lN, 1, MpiCol, lId + 1, TagSendR,
-          MPI_COMM_WORLD));
-      }
-    }
-    if (ly > 0) {
-      if (ly & 1) {
-        checkMpi(MPI_Send(lv + lM + 1, lN, MpiNum, lId - K, TagSendD,
-          MPI_COMM_WORLD));
-        checkMpi(MPI_Recv(lv + 1, lN, MpiNum, lId - K, TagRecvD,
-          MPI_COMM_WORLD, MPI_STATUS_IGNORE));
-      }
-      else {
-        checkMpi(MPI_Recv(lv + 1, lN, MpiNum, lId - K, TagRecvD,
-          MPI_COMM_WORLD, MPI_STATUS_IGNORE));
-        checkMpi(MPI_Send(lv + lM + 1, lN, MpiNum, lId - K, TagSendD,
-          MPI_COMM_WORLD));
-      }
-    }
-    if (ly < K - 1) {
-      if (ly & 1) {
-        checkMpi(MPI_Send(lv + lN * lM + 1, lN, MpiNum, lId + K, TagSendU,
-          MPI_COMM_WORLD));
-        checkMpi(MPI_Recv(lv + (lN + 1) * lM + 1, lN, MpiNum, lId + K, TagRecvU,
-          MPI_COMM_WORLD, MPI_STATUS_IGNORE));
-      }
-      else {
-        checkMpi(MPI_Recv(lv + (lN + 1) * lM + 1, lN, MpiNum, lId + K, TagRecvU,
-          MPI_COMM_WORLD, MPI_STATUS_IGNORE));
-        checkMpi(MPI_Send(lv + lN * lM + 1, lN, MpiNum, lId + K, TagSendU,
-          MPI_COMM_WORLD));
-      }
-    }
 
     // Swap and Residual Computation
     std::swap(lu, lv);
@@ -213,6 +203,16 @@ int main(int nArg, char* args[]) {
       if (!lId)
         std::printf("[Iter %d] Residual: %e\n", nIter, res);
     }
+
+    // Wait for Communication Completion
+    if (lx > 0)
+      checkMpi(MPI_Waitall(2, reqL, MPI_STATUSES_IGNORE));
+    if (lx < K - 1)
+      checkMpi(MPI_Waitall(2, reqR, MPI_STATUSES_IGNORE));
+    if (ly > 0)
+      checkMpi(MPI_Waitall(2, reqD, MPI_STATUSES_IGNORE));
+    if (ly < K - 1)
+      checkMpi(MPI_Waitall(2, reqU, MPI_STATUSES_IGNORE));
   }
 
   res = calcRes(lu, lN, g2);
