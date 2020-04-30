@@ -11,7 +11,7 @@ struct Version {
   char exec[28];
 };
 
-constexpr Version vers[]{{"bl", "../jacobi"}, {"nb", "../jacobi-nb"}};
+constexpr Version vers[]{{"bl", "../../jacobi"}, {"nb", "../../jacobi-nb"}};
 
 constexpr int nIter = 100;
 constexpr int N = 25600;

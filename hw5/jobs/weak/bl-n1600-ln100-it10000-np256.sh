@@ -11,4 +11,4 @@
 module purge
 module load openmpi/gnu/4.0.2
 
-mpiexec ../jacobi 1600 10000
+mpiexec ../../jacobi 1600 10000
