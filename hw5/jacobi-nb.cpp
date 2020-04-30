@@ -1,3 +1,5 @@
+#define NDEBUG
+
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -123,11 +125,11 @@ int main(int nArg, char* args[]) {
   checkMpi(MPI_Type_vector(lN, 1, lM, MpiNum, &MpiCol));
   checkMpi(MPI_Type_commit(&MpiCol));
 
-  checkMpi(MPI_Barrier(MPI_COMM_WORLD));
-  auto tStart = MPI_Wtime();
-
   auto lu = allocNum(lM2);
   auto lv = allocNum(lM2);
+
+  checkMpi(MPI_Barrier(MPI_COMM_WORLD));
+  auto tStart = MPI_Wtime();
 
   std::fill(lu, lu + lM2, 0);
   std::fill(lv, lv + lM2, 0);
@@ -196,14 +198,6 @@ int main(int nArg, char* args[]) {
           lu[j + (i + 1) * lM] + lu[j + 1 + i * lM]);
       }
 
-    // Swap and Residual Computation
-    std::swap(lu, lv);
-    if (!(++nIter % 10)) {
-      res = calcRes(lu, lN, g2);
-      if (!lId)
-        std::printf("[Iter %d] Residual: %e\n", nIter, res);
-    }
-
     // Wait for Communication Completion
     if (lx > 0)
       checkMpi(MPI_Waitall(2, reqL, MPI_STATUSES_IGNORE));
@@ -213,16 +207,27 @@ int main(int nArg, char* args[]) {
       checkMpi(MPI_Waitall(2, reqD, MPI_STATUSES_IGNORE));
     if (ly < K - 1)
       checkMpi(MPI_Waitall(2, reqU, MPI_STATUSES_IGNORE));
+
+    // Swap and Residual Computation
+    std::swap(lu, lv);
+    if (!(++nIter % 10)) {
+      res = calcRes(lu, lN, g2);
+      if (!lId)
+        std::printf("[Iter %d] Residual: %e\n", nIter, res);
+    }
   }
 
-  res = calcRes(lu, lN, g2);
+  if (nIter % 10)
+    res = calcRes(lu, lN, g2);
+
+  checkMpi(MPI_Barrier(MPI_COMM_WORLD));
+  auto tEnd = MPI_Wtime();
 
   std::free(lu);
   std::free(lv);
 
   checkMpi(MPI_Type_free(&MpiCol));
 
-  auto tEnd = MPI_Wtime();
   auto time = tEnd - tStart;
 
   if (!lId) {
