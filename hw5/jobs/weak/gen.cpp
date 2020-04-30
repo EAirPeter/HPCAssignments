@@ -3,7 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <vector>
 
 using namespace std;
 
@@ -20,8 +19,6 @@ constexpr int lN = 100;
 constexpr int nTaskPerNode = 16;
 constexpr int nNode = 16;
 
-
-
 int main() {
   auto nMaxTask = nTaskPerNode * nNode;
   ofstream all("all.sh");
@@ -31,7 +28,8 @@ int main() {
       auto tasksPerNode = min(np, nTaskPerNode);
       auto n = k * lN;
       ostringstream oss;
-      oss << ver.prefix << "-ln" << lN << "-it" << nIter << "-np" << np;
+      oss << ver.prefix << "-n" << n << "-ln" << lN;
+      oss << "-it" << nIter << "-np" << np;
       auto name = oss.str();
       all << "sbatch " << name << ".sh\n";
       ofstream job(name + ".sh");

@@ -1,0 +1,10 @@
+sbatch bl-n25600-ln25600-it100-np1.sh
+sbatch bl-n25600-ln12800-it100-np4.sh
+sbatch bl-n25600-ln6400-it100-np16.sh
+sbatch bl-n25600-ln3200-it100-np64.sh
+sbatch bl-n25600-ln1600-it100-np256.sh
+sbatch nb-n25600-ln25600-it100-np1.sh
+sbatch nb-n25600-ln12800-it100-np4.sh
+sbatch nb-n25600-ln6400-it100-np16.sh
+sbatch nb-n25600-ln3200-it100-np64.sh
+sbatch nb-n25600-ln1600-it100-np256.sh

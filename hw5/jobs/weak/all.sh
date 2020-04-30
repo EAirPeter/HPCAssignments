@@ -1,0 +1,10 @@
+sbatch bl-n100-ln100-it10000-np1.sh
+sbatch bl-n200-ln100-it10000-np4.sh
+sbatch bl-n400-ln100-it10000-np16.sh
+sbatch bl-n800-ln100-it10000-np64.sh
+sbatch bl-n1600-ln100-it10000-np256.sh
+sbatch nb-n100-ln100-it10000-np1.sh
+sbatch nb-n200-ln100-it10000-np4.sh
+sbatch nb-n400-ln100-it10000-np16.sh
+sbatch nb-n800-ln100-it10000-np64.sh
+sbatch nb-n1600-ln100-it10000-np256.sh

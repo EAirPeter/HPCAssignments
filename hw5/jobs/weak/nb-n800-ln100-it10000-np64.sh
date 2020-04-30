@@ -1,14 +1,14 @@
 #!/bin/bash
 #
-#SBATCH --job-name=bl-ln100-it10000-np16
-#SBATCH --nodes=1
+#SBATCH --job-name=nb-n800-ln100-it10000-np64
+#SBATCH --nodes=4
 #SBATCH --tasks-per-node=16
 #SBATCH --cpus-per-task=1
 #SBATCH --time=1:00:00
 #SBATCH --mem=1GB
-#SBATCH --output=bl-ln100-it10000-np16.out
+#SBATCH --output=nb-n800-ln100-it10000-np64.out
 
 module purge
 module load openmpi/gnu/4.0.2
 
-mpiexec ../jacobi 400 10000
+mpiexec ../jacobi-nb 800 10000
