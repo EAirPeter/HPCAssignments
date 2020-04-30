@@ -1,0 +1,52 @@
+--------------------------------------------------------------------------
+WARNING: No preset parameters were found for the device that Open MPI
+detected:
+
+  Local host:            c43-01
+  Device name:           mlx5_0
+  Device vendor ID:      0x02c9
+  Device vendor part ID: 4123
+
+Default device parameters will be used, which may result in lower
+performance.  You can edit any of the files specified by the
+btl_openib_device_param_files MCA parameter to set values for your
+device.
+
+NOTE: You can turn off this warning by setting the MCA parameter
+      btl_openib_warn_no_device_params_found to 0.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+By default, for Open MPI 4.0 and later, infiniband ports on a device
+are not used by default.  The intent is to use UCX for these devices.
+You can override this policy by setting the btl_openib_allow_ib MCA parameter
+to true.
+
+  Local host:              c43-01
+  Local adapter:           mlx5_0
+  Local port:              1
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   c43-01
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[Iter 0] Residual: 25600
+[Iter 10] Residual: 2.558808e+04
+[Iter 20] Residual: 2.558587e+04
+[Iter 30] Residual: 2.558390e+04
+[Iter 40] Residual: 2.558284e+04
+[Iter 50] Residual: 2.558164e+04
+[Iter 60] Residual: 2.558043e+04
+[Iter 70] Residual: 2.557978e+04
+[Iter 80] Residual: 2.557849e+04
+[Iter 90] Residual: 2.557763e+04
+[Iter 100] Residual: 2.557709e+04
+[c43-01:451031] 63 more processes have sent help message help-mpi-btl-openib.txt / no device params found
+[c43-01:451031] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[c43-01:451031] 63 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
+[c43-01:451031] 63 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[Completed] Time: 4.670102 s
+[Completed] Residual: 2.558501e+04
+[Completed] #Iteration: 100
