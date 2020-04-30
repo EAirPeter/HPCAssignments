@@ -8,10 +8,7 @@ all: $(TARGETS)
 %: %.cpp *.h
 	$(CXX) $(CXXFLAGS) $< $(LIBS) -o $@
 
-run:
-	mpiexec -np 4 ./jacobi 10 1000
-
 clean:
-	-$(RM) $(TARGETS) *~
+	-$(RM) $(TARGETS)
 
 .PHONY: all, clean
