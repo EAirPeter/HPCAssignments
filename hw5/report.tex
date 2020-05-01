@@ -25,20 +25,20 @@
 
 \begin{filecontents*}{weak.csv}
 NP,BL,NB
-1,0.099529,0.127009
-4,0.173452,0.143530
-16,0.228434,0.186785
-64,1.785567,1.441090
-256,3.837413,2.438356
+1,0.114321,0.120982
+4,0.195516,0.17968
+16,0.23157,0.210041
+64,1.154025,0.991806
+256,15.336503,13.124876
 \end{filecontents*}
 
 \begin{filecontents*}{strong.csv}
 NP,BL,NB
 1,1,1
-4,2.283515958,2.237754604
-16,8.722399017,7.767556228
-64,29.57530104,34.91080837
-256,107.5529521,106.3285942
+4,4.065592752,3.544269397
+16,9.497281424,8.88043386
+64,34.48270979,31.86768355
+256,93.30870841,32.82200698
 \end{filecontents*}
 
 \begin{document}
@@ -58,11 +58,11 @@ NP,BL,NB
     \item See \url{jacobi.cpp} for blocking implementation and
     \url{jacobi-nb.cpp} for non-blocking implementation.
 
-    \item See \url{jobs/**/*.out} for results generated on Prince cluster
-    where \lstinline{bl} stands for blocking version, \lstinline{nb} stands
-    for non-blocking version, \lstinline{n} stands for $N$, \lstinline{ln}
-    stands for $N_l$ and \lstinline{np} stands for number of processes in the
-    file names.
+    \item See \url{jobs/weak/} and \url{jobs/strong/} for job scripts and raw
+    results generated on Prince cluster. In the file names, \lstinline{bl}
+    stands for blocking version, \lstinline{nb} stands for non-blocking
+    version, \lstinline{n} stands for $N$, \lstinline{ln} stands for $N_l$ and
+    \lstinline{np} stands for number of processes in the file names.
 
     \item For convenience, results are shown in the following table:
     \begin{center}
@@ -71,17 +71,17 @@ NP,BL,NB
         $N$ & $N_l$ & \#Iteration & \#Process & Time (blocking) &
           Time (non-blocking) \\
         \midrule
-        100  & 100 & 10000 & 1   & 0.099529 s & 0.127009 s \\
-        200  & 100 & 10000 & 4   & 0.173452 s & 0.143530 s \\
-        400  & 100 & 10000 & 16  & 0.228434 s & 0.186785 s \\
-        800  & 100 & 10000 & 64  & 1.785567 s & 1.441090 s \\
-        1600 & 100 & 10000 & 256 & 3.837413 s & 2.438356 s \\
+        100   & 100   & 10000 & 1   & 0.114321   s & 0.120982   s \\
+        200   & 100   & 10000 & 4   & 0.195516   s & 0.17968    s \\
+        400   & 100   & 10000 & 16  & 0.23157    s & 0.210041   s \\
+        800   & 100   & 10000 & 64  & 1.154025   s & 0.991806   s \\
+        1600  & 100   & 10000 & 256 & 15.336503  s & 13.124876  s \\
         \midrule
-        25600 & 25600 & 100 & 1   & 166.562417 s & 163.037036 s \\
-        25600 & 12800 & 100 & 4   & 72.941210  s & 72.857424  s \\
-        25600 & 6400  & 100 & 16  & 19.095941  s & 20.989489  s \\
-        25600 & 3200  & 100 & 64  & 5.631808   s & 4.670102   s \\
-        25600 & 1600  & 100 & 256 & 1.548655   s & 1.533332   s \\
+        25600 & 25600 & 100   & 1   & 163.796906 s & 152.059074 s \\
+        25600 & 12800 & 100   & 4   & 40.288567  s & 42.902798  s \\
+        25600 & 6400  & 100   & 16  & 17.246715  s & 17.122933  s \\
+        25600 & 3200  & 100   & 64  & 4.750117   s & 4.771576   s \\
+        25600 & 1600  & 100   & 256 & 1.75543    s & 4.632839   s \\
         \bottomrule
       \end{tabular}
     \end{center}
@@ -109,8 +109,14 @@ NP,BL,NB
       \end{axis}
     \end{tikzpicture} \end{center}
 
-    \item For strong scalability, the speedups are plotted below. It some how
-    resembles linear speedup, but it is still not ideal.
+    \item For strong scalability, the speedups are plotted below. The series
+    of blocking version some how resembles linear speedup, but it is still not
+    ideal. For the non-blocking version, the running time of \#Process=256 is
+    almost the same with that of \#Process=64, which might be caused by
+    instability of the system. I have to mention that a previous buggy test of
+    non-blocking version with \#Process=256 does suggest the running time is
+    within 2 sec, which is what I expect. Since the nodes required for
+    \#Process=256 are down now, I am not able to run the test again.
     \begin{center} \begin{tikzpicture}
       \begin{axis} [
         xlabel = {\#Process},
@@ -133,9 +139,32 @@ NP,BL,NB
     \item For comparison between blocking and non-blocking version, actually
     their timings do not differ much but the non-blocking version still
     outperforms the blocking one when \#Process and $N$ both getting bigger.
-
   \end{itemize}
 
+  \item Parallel sample sort
+  \begin{itemize}
+    \item See \url{ssort.cpp} for implementation.
+    \item See \url{jobs/ssort/} for job scripts and raw results.
+    \item The results are listed below. They are obtained with the
+    configuration of \#Node=12 and \#TaskPerNode=14, that is \#Process=168.
+    \begin{center}
+      \begin{tabular}{ccc}
+        \toprule
+        $N$ & $P$ & Time \\
+        \midrule
+        10000   & 168 & 0.068062  s \\
+        100000  & 168 & 0.718512  s \\
+        1000000 & 168 & 20.496098 s \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+    \item You may notice that for $N=1000000$ the running time increases a
+    a lot compared to smaller $N$'s. I guess it is also because of instability
+    of the system.
+    \item Note: the output of all bucket is removed from the repository
+    because they are too large (about 2 gigabytes). You may generate them by
+    running the program.
+  \end{itemize}
 \end{enumerate}
 
 \end{document}
