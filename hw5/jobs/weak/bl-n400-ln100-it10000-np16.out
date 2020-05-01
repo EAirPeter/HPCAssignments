@@ -4,18 +4,17 @@ are not used by default.  The intent is to use UCX for these devices.
 You can override this policy by setting the btl_openib_allow_ib MCA parameter
 to true.
 
-  Local host:              c26-08
-  Local adapter:           mlx4_0
+  Local host:              c42-02
+  Local adapter:           mlx5_0
   Local port:              1
 
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   c26-08
-  Local device: mlx4_0
+  Local host:   c42-02
+  Local device: mlx5_0
 --------------------------------------------------------------------------
-[c26-08:140930] [[19027,0],0] ORTE_ERROR_LOG: Data unpack would read past end of buffer in file util/show_help.c at line 501
 [Iter 0] Residual: 400
 [Iter 10] Residual: 3.958594e+02
 [Iter 20] Residual: 3.937964e+02
@@ -1017,9 +1016,9 @@ WARNING: There was an error initializing an OpenFabrics device.
 [Iter 9980] Residual: 2.415845e+02
 [Iter 9990] Residual: 2.415047e+02
 [Iter 10000] Residual: 2.414249e+02
-[Completed] Time: 0.228434 s
+[Completed] Time: 0.231570 s
 [Completed] Residual: 2.414249e+02
 [Completed] #Iteration: 10000
-[c26-08:140930] 14 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
-[c26-08:140930] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[c26-08:140930] 15 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[c42-02:244951] 15 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
+[c42-02:244951] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[c42-02:244951] 15 more processes have sent help message help-mpi-btl-openib.txt / error in device init

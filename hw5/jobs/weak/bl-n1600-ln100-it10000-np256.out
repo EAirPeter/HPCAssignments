@@ -4,16 +4,16 @@ are not used by default.  The intent is to use UCX for these devices.
 You can override this policy by setting the btl_openib_allow_ib MCA parameter
 to true.
 
-  Local host:              c24-01
-  Local adapter:           mlx5_0
+  Local host:              c32-11
+  Local adapter:           mlx4_0
   Local port:              1
 
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   c24-01
-  Local device: mlx5_0
+  Local host:   c32-11
+  Local device: mlx4_0
 --------------------------------------------------------------------------
 [Iter 0] Residual: 1600
 [Iter 10] Residual: 1.595860e+03
@@ -368,6 +368,9 @@ WARNING: There was an error initializing an OpenFabrics device.
 [Iter 3500] Residual: 1.506588e+03
 [Iter 3510] Residual: 1.506453e+03
 [Iter 3520] Residual: 1.506319e+03
+[c32-04:06061] 255 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
+[c32-04:06061] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[c32-04:06061] 255 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 [Iter 3530] Residual: 1.506184e+03
 [Iter 3540] Residual: 1.506050e+03
 [Iter 3550] Residual: 1.505916e+03
@@ -1016,9 +1019,6 @@ WARNING: There was an error initializing an OpenFabrics device.
 [Iter 9980] Residual: 1.441580e+03
 [Iter 9990] Residual: 1.441500e+03
 [Iter 10000] Residual: 1.441420e+03
-[Completed] Time: 3.837413 s
+[Completed] Time: 15.336503 s
 [Completed] Residual: 1.441420e+03
 [Completed] #Iteration: 10000
-[c18-01:28473] 255 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
-[c18-01:28473] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[c18-01:28473] 255 more processes have sent help message help-mpi-btl-openib.txt / error in device init

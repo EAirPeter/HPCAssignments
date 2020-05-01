@@ -1,3 +1,5 @@
+#define NDEBUG
+
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -121,11 +123,11 @@ int main(int nArg, char* args[]) {
   checkMpi(MPI_Type_vector(lN, 1, lM, MpiNum, &MpiCol));
   checkMpi(MPI_Type_commit(&MpiCol));
 
-  checkMpi(MPI_Barrier(MPI_COMM_WORLD));
-  auto tStart = MPI_Wtime();
-
   auto lu = allocNum(lM2);
   auto lv = allocNum(lM2);
+
+  checkMpi(MPI_Barrier(MPI_COMM_WORLD));
+  auto tStart = MPI_Wtime();
 
   std::fill(lu, lu + lM2, 0);
   std::fill(lv, lv + lM2, 0);
@@ -215,14 +217,17 @@ int main(int nArg, char* args[]) {
     }
   }
 
-  res = calcRes(lu, lN, g2);
+  if (nIter % 10)
+    res = calcRes(lu, lN, g2);
+
+  checkMpi(MPI_Barrier(MPI_COMM_WORLD));
+  auto tEnd = MPI_Wtime();
 
   std::free(lu);
   std::free(lv);
 
   checkMpi(MPI_Type_free(&MpiCol));
 
-  auto tEnd = MPI_Wtime();
   auto time = tEnd - tStart;
 
   if (!lId) {
