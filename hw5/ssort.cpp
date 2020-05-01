@@ -146,6 +146,13 @@ int main(int nArg, char* args[]) {
   checkMpi(MPI_Barrier(MPI_COMM_WORLD));
   auto tEnd = MPI_Wtime();
 
+  auto time = tEnd - tStart;
+
+  // Report
+  if (!id)
+    std::printf("[Completed] Time: %f s\n", time);
+  std::printf("[Completed] #Element in bucket %d: %d\n", id, M);
+
   // Write to file
   static char fname[256];
   std::snprintf(fname, 256, "ssort-n%d-p%d-r%.2d.txt", N, P, id);

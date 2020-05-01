@@ -14,8 +14,8 @@ struct Version {
 constexpr Version vers[]{{"ssort", "../../ssort"}};
 
 //constexpr int nCpuPerTask = 1;
-constexpr int nTaskPerNode = 16;
-constexpr int nNode = 16;
+constexpr int nTaskPerNode = 14;
+constexpr int nNode = 12;
 
 int main() {
   ofstream all("all.sh");
