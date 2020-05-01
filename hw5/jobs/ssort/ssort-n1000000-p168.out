@@ -1,0 +1,189 @@
+--------------------------------------------------------------------------
+By default, for Open MPI 4.0 and later, infiniband ports on a device
+are not used by default.  The intent is to use UCX for these devices.
+You can override this policy by setting the btl_openib_allow_ib MCA parameter
+to true.
+
+  Local host:              c38-11
+  Local adapter:           mlx4_0
+  Local port:              1
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   c38-11
+  Local device: mlx4_0
+--------------------------------------------------------------------------
+[c33-02:05297] 167 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
+[c33-02:05297] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[c33-02:05297] 167 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[Completed] #Element in bucket 1: 995502
+[Completed] #Element in bucket 3: 1012103
+[Completed] #Element in bucket 5: 1007428
+[Completed] #Element in bucket 9: 1001398
+[Completed] #Element in bucket 13: 998341
+[Completed] #Element in bucket 7: 1002891
+[Completed] #Element in bucket 11: 996886
+[Completed] Time: 20.496098 s
+[Completed] #Element in bucket 0: 1042781
+[Completed] #Element in bucket 2: 1006085
+[Completed] #Element in bucket 4: 1001768
+[Completed] #Element in bucket 6: 999965
+[Completed] #Element in bucket 8: 997237
+[Completed] #Element in bucket 10: 1001208
+[Completed] #Element in bucket 12: 997017
+[Completed] #Element in bucket 99: 1002568
+[Completed] #Element in bucket 155: 995317
+[Completed] #Element in bucket 71: 997962
+[Completed] #Element in bucket 113: 1005788
+[Completed] #Element in bucket 129: 1000076
+[Completed] #Element in bucket 57: 998938
+[Completed] #Element in bucket 29: 999065
+[Completed] #Element in bucket 45: 988155
+[Completed] #Element in bucket 145: 1004932
+[Completed] #Element in bucket 17: 997865
+[Completed] #Element in bucket 85: 999622
+[Completed] #Element in bucket 105: 999179
+[Completed] #Element in bucket 157: 1002565
+[Completed] #Element in bucket 73: 996682
+[Completed] #Element in bucket 115: 997360
+[Completed] #Element in bucket 131: 1005398
+[Completed] #Element in bucket 59: 1001655
+[Completed] #Element in bucket 33: 988957
+[Completed] #Element in bucket 49: 1002390
+[Completed] #Element in bucket 147: 1003348
+[Completed] #Element in bucket 19: 998514
+[Completed] #Element in bucket 89: 993919
+[Completed] #Element in bucket 100: 998323
+[Completed] #Element in bucket 159: 996236
+[Completed] #Element in bucket 75: 999832
+[Completed] #Element in bucket 117: 997143
+[Completed] #Element in bucket 133: 996123
+[Completed] #Element in bucket 61: 1001073
+[Completed] #Element in bucket 35: 1005236
+[Completed] #Element in bucket 51: 1003018
+[Completed] #Element in bucket 149: 997717
+[Completed] #Element in bucket 21: 1005487
+[Completed] #Element in bucket 91: 1001961
+[Completed] #Element in bucket 101: 993766
+[Completed] #Element in bucket 161: 1003530
+[Completed] #Element in bucket 77: 990286
+[Completed] #Element in bucket 121: 1003354
+[Completed] #Element in bucket 137: 998637
+[Completed] #Element in bucket 65: 1000683
+[Completed] #Element in bucket 37: 1000848
+[Completed] #Element in bucket 53: 1002481
+[Completed] #Element in bucket 153: 1009387
+[Completed] #Element in bucket 23: 1001251
+[Completed] #Element in bucket 93: 997460
+[Completed] #Element in bucket 103: 1001265
+[Completed] #Element in bucket 163: 1003601
+[Completed] #Element in bucket 81: 996841
+[Completed] #Element in bucket 119: 996945
+[Completed] #Element in bucket 135: 1001041
+[Completed] #Element in bucket 67: 998241
+[Completed] #Element in bucket 39: 1000913
+[Completed] #Element in bucket 55: 995506
+[Completed] #Element in bucket 141: 1003201
+[Completed] #Element in bucket 25: 1001460
+[Completed] #Element in bucket 87: 1003308
+[Completed] #Element in bucket 104: 1001298
+[Completed] #Element in bucket 165: 1013384
+[Completed] #Element in bucket 83: 999775
+[Completed] #Element in bucket 123: 997981
+[Completed] #Element in bucket 139: 1002855
+[Completed] #Element in bucket 69: 998323
+[Completed] #Element in bucket 41: 1001942
+[Completed] #Element in bucket 43: 989908
+[Completed] #Element in bucket 143: 995129
+[Completed] #Element in bucket 27: 1002290
+[Completed] #Element in bucket 90: 997406
+[Completed] #Element in bucket 106: 990448
+[Completed] #Element in bucket 156: 1005948
+[Completed] #Element in bucket 74: 997941
+[Completed] #Element in bucket 124: 997623
+[Completed] #Element in bucket 132: 996814
+[Completed] #Element in bucket 60: 998557
+[Completed] #Element in bucket 28: 999054
+[Completed] #Element in bucket 47: 1002589
+[Completed] #Element in bucket 144: 993065
+[Completed] #Element in bucket 20: 997813
+[Completed] #Element in bucket 92: 995362
+[Completed] #Element in bucket 107: 1006753
+[Completed] #Element in bucket 158: 1002277
+[Completed] #Element in bucket 79: 1001456
+[Completed] #Element in bucket 125: 993615
+[Completed] #Element in bucket 127: 1001691
+[Completed] #Element in bucket 63: 998285
+[Completed] #Element in bucket 31: 998375
+[Completed] #Element in bucket 50: 998064
+[Completed] #Element in bucket 146: 999617
+[Completed] #Element in bucket 22: 999604
+[Completed] #Element in bucket 95: 1000847
+[Completed] #Element in bucket 109: 997270
+[Completed] #Element in bucket 160: 1007119
+[Completed] #Element in bucket 82: 998476
+[Completed] #Element in bucket 114: 998032
+[Completed] #Element in bucket 128: 995670
+[Completed] #Element in bucket 64: 994509
+[Completed] #Element in bucket 32: 1005366
+[Completed] #Element in bucket 52: 999529
+[Completed] #Element in bucket 151: 1004196
+[Completed] #Element in bucket 24: 997913
+[Completed] #Element in bucket 96: 997033
+[Completed] #Element in bucket 111: 999328
+[Completed] #Element in bucket 164: 999175
+[Completed] #Element in bucket 70: 999736
+[Completed] #Element in bucket 116: 1000557
+[Completed] #Element in bucket 130: 1001193
+[Completed] #Element in bucket 66: 1000780
+[Completed] #Element in bucket 34: 1003221
+[Completed] #Element in bucket 54: 998623
+[Completed] #Element in bucket 148: 995623
+[Completed] #Element in bucket 15: 1004238
+[Completed] #Element in bucket 97: 1000249
+[Completed] #Element in bucket 98: 993798
+[Completed] #Element in bucket 167: 1049590
+[Completed] #Element in bucket 72: 1002202
+[Completed] #Element in bucket 122: 994755
+[Completed] #Element in bucket 138: 998437
+[Completed] #Element in bucket 68: 1000068
+[Completed] #Element in bucket 36: 992304
+[Completed] #Element in bucket 42: 1002282
+[Completed] #Element in bucket 150: 994009
+[Completed] #Element in bucket 18: 1001044
+[Completed] #Element in bucket 86: 992688
+[Completed] #Element in bucket 102: 999680
+[Completed] #Element in bucket 162: 996652
+[Completed] #Element in bucket 76: 1003170
+[Completed] #Element in bucket 118: 998411
+[Completed] #Element in bucket 134: 999938
+[Completed] #Element in bucket 58: 996639
+[Completed] #Element in bucket 40: 991434
+[Completed] #Element in bucket 44: 1007364
+[Completed] #Element in bucket 152: 996686
+[Completed] #Element in bucket 26: 993004
+[Completed] #Element in bucket 84: 996319
+[Completed] #Element in bucket 108: 996461
+[Completed] #Element in bucket 154: 1000014
+[Completed] #Element in bucket 78: 1003181
+[Completed] #Element in bucket 120: 997520
+[Completed] #Element in bucket 136: 997714
+[Completed] #Element in bucket 62: 1001366
+[Completed] #Element in bucket 38: 998953
+[Completed] #Element in bucket 46: 1000370
+[Completed] #Element in bucket 140: 993910
+[Completed] #Element in bucket 16: 995424
+[Completed] #Element in bucket 88: 1003851
+[Completed] #Element in bucket 110: 997373
+[Completed] #Element in bucket 166: 1000052
+[Completed] #Element in bucket 80: 999425
+[Completed] #Element in bucket 112: 995861
+[Completed] #Element in bucket 126: 999347
+[Completed] #Element in bucket 56: 1000547
+[Completed] #Element in bucket 30: 998567
+[Completed] #Element in bucket 48: 994118
+[Completed] #Element in bucket 142: 1001076
+[Completed] #Element in bucket 14: 1002390
+[Completed] #Element in bucket 94: 1001062

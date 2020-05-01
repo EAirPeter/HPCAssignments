@@ -1,0 +1,189 @@
+--------------------------------------------------------------------------
+By default, for Open MPI 4.0 and later, infiniband ports on a device
+are not used by default.  The intent is to use UCX for these devices.
+You can override this policy by setting the btl_openib_allow_ib MCA parameter
+to true.
+
+  Local host:              c35-12
+  Local adapter:           mlx4_0
+  Local port:              1
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   c35-12
+  Local device: mlx4_0
+--------------------------------------------------------------------------
+[Completed] #Element in bucket 3: 10026
+[Completed] #Element in bucket 4: 10284
+[Completed] #Element in bucket 5: 9764
+[Completed] #Element in bucket 7: 9834
+[Completed] #Element in bucket 9: 9879
+[Completed] Time: 0.068062 s
+[Completed] #Element in bucket 1: 10881
+[Completed] #Element in bucket 8: 9671
+[Completed] #Element in bucket 10: 9893
+[Completed] #Element in bucket 11: 9636
+[Completed] #Element in bucket 12: 10042
+[Completed] #Element in bucket 13: 9741
+[Completed] #Element in bucket 141: 9774
+[Completed] #Element in bucket 0: 13281
+[Completed] #Element in bucket 2: 10090
+[Completed] #Element in bucket 6: 9808
+[Completed] #Element in bucket 159: 9729
+[Completed] #Element in bucket 99: 9619
+[Completed] #Element in bucket 113: 10283
+[Completed] #Element in bucket 71: 9422
+[Completed] #Element in bucket 127: 9722
+[Completed] #Element in bucket 57: 9460
+[Completed] #Element in bucket 43: 9840
+[Completed] #Element in bucket 23: 9924
+[Completed] #Element in bucket 143: 9721
+[Completed] #Element in bucket 28: 10040
+[Completed] #Element in bucket 95: 9717
+[Completed] #Element in bucket 160: 10070
+[Completed] #Element in bucket 100: 10436
+[Completed] #Element in bucket 116: 9995
+[Completed] #Element in bucket 73: 10048
+[Completed] #Element in bucket 128: 9569
+[Completed] #Element in bucket 64: 9889
+[Completed] #Element in bucket 45: 9778
+[Completed] #Element in bucket 24: 10005
+[Completed] #Element in bucket 140: 9845
+[Completed] #Element in bucket 29: 10039
+[Completed] #Element in bucket 96: 9761
+[Completed] #Element in bucket 161: 9791
+[Completed] #Element in bucket 101: 9548
+[Completed] #Element in bucket 117: 9534
+[Completed] #Element in bucket 76: 9729
+[Completed] #Element in bucket 129: 10276
+[Completed] #Element in bucket 56: 9878
+[Completed] #Element in bucket 47: 9936
+[Completed] #Element in bucket 25: 10343
+[Completed] #Element in bucket 142: 9654
+[Completed] #Element in bucket 31: 10226
+[Completed] #Element in bucket 97: 9891
+[Completed] #Element in bucket 162: 9725
+[Completed] #Element in bucket 102: 9745
+[Completed] #Element in bucket 118: 10048
+[Completed] #Element in bucket 70: 9770
+[Completed] #Element in bucket 131: 9691
+[Completed] #Element in bucket 59: 9986
+[Completed] #Element in bucket 48: 9887
+[Completed] #Element in bucket 26: 9698
+[Completed] #Element in bucket 144: 9796
+[Completed] #Element in bucket 32: 9061
+[Completed] #Element in bucket 87: 9949
+[Completed] #Element in bucket 163: 10451
+[Completed] #Element in bucket 103: 9796
+[Completed] #Element in bucket 119: 9967
+[Completed] #Element in bucket 74: 9740
+[Completed] #Element in bucket 133: 9901
+[Completed] #Element in bucket 60: 10121
+[Completed] #Element in bucket 49: 9864
+[Completed] #Element in bucket 27: 9459
+[Completed] #Element in bucket 145: 10077
+[Completed] #Element in bucket 33: 10124
+[Completed] #Element in bucket 88: 10052
+[Completed] #Element in bucket 164: 9749
+[Completed] #Element in bucket 104: 9904
+[Completed] #Element in bucket 121: 9727
+[Completed] #Element in bucket 75: 10007
+[Completed] #Element in bucket 135: 9909
+[Completed] #Element in bucket 61: 9881
+[Completed] #Element in bucket 50: 10194
+[Completed] #Element in bucket 14: 10062
+[Completed] #Element in bucket 146: 9873
+[Completed] #Element in bucket 34: 9629
+[Completed] #Element in bucket 89: 9427
+[Completed] #Element in bucket 167: 29484
+[Completed] #Element in bucket 105: 9920
+[Completed] #Element in bucket 122: 10206
+[Completed] #Element in bucket 77: 10045
+[Completed] #Element in bucket 130: 10156
+[Completed] #Element in bucket 62: 9715
+[Completed] #Element in bucket 51: 9822
+[Completed] #Element in bucket 15: 10139
+[Completed] #Element in bucket 147: 10084
+[Completed] #Element in bucket 36: 9389
+[Completed] #Element in bucket 90: 10169
+[Completed] #Element in bucket 155: 9620
+[Completed] #Element in bucket 107: 9894
+[Completed] #Element in bucket 124: 10033
+[Completed] #Element in bucket 78: 9841
+[Completed] #Element in bucket 132: 9720
+[Completed] #Element in bucket 63: 10124
+[Completed] #Element in bucket 52: 9730
+[Completed] #Element in bucket 17: 10388
+[Completed] #Element in bucket 148: 9436
+[Completed] #Element in bucket 39: 9970
+[Completed] #Element in bucket 91: 9879
+[Completed] #Element in bucket 156: 9678
+[Completed] #Element in bucket 108: 10189
+[Completed] #Element in bucket 125: 9614
+[Completed] #Element in bucket 79: 10081
+[Completed] #Element in bucket 134: 9853
+[Completed] #Element in bucket 65: 9521
+[Completed] #Element in bucket 53: 9818
+[Completed] #Element in bucket 18: 9690
+[Completed] #Element in bucket 149: 10372
+[Completed] #Element in bucket 41: 9819
+[Completed] #Element in bucket 92: 9738
+[Completed] #Element in bucket 157: 10095
+[Completed] #Element in bucket 109: 9574
+[Completed] #Element in bucket 114: 9718
+[Completed] #Element in bucket 80: 9829
+[Completed] #Element in bucket 136: 9860
+[Completed] #Element in bucket 67: 10115
+[Completed] #Element in bucket 54: 9502
+[Completed] #Element in bucket 19: 9543
+[Completed] #Element in bucket 150: 9933
+[Completed] #Element in bucket 30: 9943
+[Completed] #Element in bucket 93: 9994
+[Completed] #Element in bucket 158: 10078
+[Completed] #Element in bucket 111: 9585
+[Completed] #Element in bucket 115: 9820
+[Completed] #Element in bucket 81: 10028
+[Completed] #Element in bucket 137: 9982
+[Completed] #Element in bucket 68: 9734
+[Completed] #Element in bucket 55: 10089
+[Completed] #Element in bucket 20: 10069
+[Completed] #Element in bucket 151: 9991
+[Completed] #Element in bucket 35: 9774
+[Completed] #Element in bucket 94: 9914
+[Completed] #Element in bucket 165: 9261
+[Completed] #Element in bucket 106: 9605
+[Completed] #Element in bucket 120: 9525
+[Completed] #Element in bucket 82: 9952
+[Completed] #Element in bucket 138: 9763
+[Completed] #Element in bucket 69: 9895
+[Completed] #Element in bucket 42: 10079
+[Completed] #Element in bucket 21: 9675
+[Completed] #Element in bucket 152: 9611
+[Completed] #Element in bucket 37: 10118
+[Completed] #Element in bucket 84: 9912
+[Completed] #Element in bucket 166: 9863
+[Completed] #Element in bucket 110: 10336
+[Completed] #Element in bucket 123: 9784
+[Completed] #Element in bucket 83: 9616
+[Completed] #Element in bucket 139: 9729
+[Completed] #Element in bucket 66: 9649
+[Completed] #Element in bucket 44: 9926
+[Completed] #Element in bucket 16: 9325
+[Completed] #Element in bucket 153: 10180
+[Completed] #Element in bucket 38: 9992
+[Completed] #Element in bucket 85: 9943
+[Completed] #Element in bucket 154: 9539
+[Completed] #Element in bucket 98: 9962
+[Completed] #Element in bucket 112: 9640
+[Completed] #Element in bucket 72: 9746
+[Completed] #Element in bucket 126: 9711
+[Completed] #Element in bucket 58: 10004
+[Completed] #Element in bucket 46: 9808
+[Completed] #Element in bucket 22: 9512
+[Completed] #Element in bucket 40: 9797
+[Completed] #Element in bucket 86: 9643
+[c33-02:04535] 167 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
+[c33-02:04535] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[c33-02:04535] 167 more processes have sent help message help-mpi-btl-openib.txt / error in device init
