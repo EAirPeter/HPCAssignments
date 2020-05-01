@@ -4,23 +4,23 @@ are not used by default.  The intent is to use UCX for these devices.
 You can override this policy by setting the btl_openib_allow_ib MCA parameter
 to true.
 
-  Local host:              c26-08
-  Local adapter:           mlx4_0
+  Local host:              c17-01
+  Local adapter:           mlx5_0
   Local port:              1
 
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   c26-08
-  Local device: mlx4_0
+  Local host:   c17-01
+  Local device: mlx5_0
 --------------------------------------------------------------------------
 [Iter 0] Residual: 25600
 [Iter 10] Residual: 2.559586e+04
 [Iter 20] Residual: 2.559380e+04
-[c26-08:141808] 15 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
-[c26-08:141808] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[c26-08:141808] 15 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[c17-01:133093] 15 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
+[c17-01:133093] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[c17-01:133093] 15 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 [Iter 30] Residual: 2.559221e+04
 [Iter 40] Residual: 2.559086e+04
 [Iter 50] Residual: 2.558967e+04
@@ -29,6 +29,6 @@ WARNING: There was an error initializing an OpenFabrics device.
 [Iter 80] Residual: 2.558669e+04
 [Iter 90] Residual: 2.558583e+04
 [Iter 100] Residual: 2.558501e+04
-[Completed] Time: 19.095941 s
+[Completed] Time: 17.246715 s
 [Completed] Residual: 2.558501e+04
 [Completed] #Iteration: 100

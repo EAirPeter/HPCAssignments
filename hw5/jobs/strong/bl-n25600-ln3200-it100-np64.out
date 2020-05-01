@@ -4,16 +4,16 @@ are not used by default.  The intent is to use UCX for these devices.
 You can override this policy by setting the btl_openib_allow_ib MCA parameter
 to true.
 
-  Local host:              c11-02
-  Local adapter:           mlx5_0
+  Local host:              c27-08
+  Local adapter:           mlx4_0
   Local port:              1
 
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   c11-02
-  Local device: mlx5_0
+  Local host:   c27-08
+  Local device: mlx4_0
 --------------------------------------------------------------------------
 [Iter 0] Residual: 25600
 [Iter 10] Residual: 2.559586e+04
@@ -24,11 +24,11 @@ WARNING: There was an error initializing an OpenFabrics device.
 [Iter 60] Residual: 2.558860e+04
 [Iter 70] Residual: 2.558761e+04
 [Iter 80] Residual: 2.558669e+04
-[c10-01:136259] 63 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
-[c10-01:136259] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[c10-01:136259] 63 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 [Iter 90] Residual: 2.558583e+04
 [Iter 100] Residual: 2.558501e+04
-[Completed] Time: 5.631808 s
+[Completed] Time: 4.750117 s
 [Completed] Residual: 2.558501e+04
 [Completed] #Iteration: 100
+[c27-01:131776] 63 more processes have sent help message help-mpi-btl-openib.txt / ib port not selected
+[c27-01:131776] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[c27-01:131776] 63 more processes have sent help message help-mpi-btl-openib.txt / error in device init
